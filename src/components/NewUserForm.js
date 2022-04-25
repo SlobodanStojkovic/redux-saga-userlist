@@ -40,6 +40,7 @@ class NewUserForm extends Component {
           <Label>First name</Label>
           <Input
             required
+            type="text"
             placeholder="First name"
             onChange={this.handleFirstNameChange}
             value={this.state.firstName}
@@ -49,6 +50,7 @@ class NewUserForm extends Component {
           <Label>Last name</Label>
           <Input
             required
+            type="text"
             placeholder="Last name"
             onChange={this.handleLastNameChange}
             value={this.state.lastName}

@@ -2,7 +2,6 @@ import React from "react";
 import { ListGroup, ListGroupItem, Button } from "reactstrap";
 
 const Userslist = ({ users, onDeleteUser }) => {
-  console.log(users);
   return (
     <ListGroup>
       {users.items.length > 0 &&
@@ -29,7 +28,11 @@ const Userslist = ({ users, onDeleteUser }) => {
                     {user.lastName}
                   </div>
                   <div>
-                    <Button outline color="danger" onClick={()=>onDeleteUser(user.id)}>
+                    <Button
+                      outline
+                      color="danger"
+                      onClick={() => onDeleteUser(user.id)}
+                    >
                       Delete
                     </Button>
                   </div>

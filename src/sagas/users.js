@@ -17,9 +17,14 @@ function* getUsers() {
     const result = yield call(api.getUsers);
     //code under result will be called after the call has been resolved
     yield put(actions.getUsersSuccess({ items: result.data.data }));
-    console.log(result.data.data);
   } catch (error) {
-    console.log(error);
+    yield put(
+      actions.usersError({
+        error:
+          "An error occurred when trying to get the users. The error is: " +
+          error,
+      })
+    );
   }
 }
 
@@ -36,7 +41,13 @@ function* createUser(action) {
     });
     yield call(getUsers);
   } catch (error) {
-    console.log(error);
+    yield put(
+      actions.usersError({
+        error:
+          "An error occurred when trying to create the user. The error is: " +
+          error,
+      })
+    );
   }
 }
 
@@ -49,7 +60,13 @@ function* deleteUser({ userId }) {
     yield call(api.deleteUser.userId);
     yield call(getUsers);
   } catch (error) {
-    console.log(error);
+    yield put(
+      actions.usersError({
+        error:
+          "An error occurred when trying to delete the user. The error is: " +
+          error,
+      })
+    );
   }
 }
 
