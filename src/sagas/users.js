@@ -10,8 +10,10 @@ function* getUsers() {
     const result = yield call(api.getUsers);
     //code under result will be called after the call has been resolved
     yield put(actions.getUsersSuccess({ items: result.data.data }));
-    console.log(result);
-  } catch (error) {}
+    console.log(result.data.data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function* watchGetUsersRequest() {
