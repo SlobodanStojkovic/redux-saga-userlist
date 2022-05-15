@@ -9,7 +9,7 @@ import {
 import * as actions from "../actions/users";
 import * as api from "../api/users";
 
-//generator functions must always yield values
+//generator functions* must always yield values
 
 function* getUsers() {
   //this is worker saga

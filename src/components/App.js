@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "reactstrap";
 import {
   getUsersRequest,
@@ -10,54 +10,51 @@ import {
 import NewUserForm from "./NewUserForm";
 import Userslist from "./UsersList";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const [users, setUsers] = useState([]);
+  const redcerData = useSelector((state) => {
+    return state.users;
+  });
 
-    this.props.getUsersRequest();
-  }
+  const dispatch = useDispatch();
 
-  handleCreateUserSubmit = ({ firstName, lastName }) => {
-    this.props.createUserRequest({
+  useEffect(() => {
+    setUsers(redcerData);
+  }, [redcerData]);
+
+  useEffect(() => {
+    dispatch(getUsersRequest());
+  }, [dispatch]);
+
+  const handleCreateUserSubmit = ({ firstName, lastName }) => {
+    createUserRequest({
       firstName,
       lastName,
     });
   };
 
-  handleDeleteUserClick = (userId) => {
-    //call the delete user request REDUX action
-    this.props.deleteUserRequest(userId);
+  const handleDeleteUserClick = (userId) => {
+    deleteUserRequest(userId);
   };
 
-  handleCloseAlert = () => {
-    this.props.usersError({
+  const handleCloseAlert = () => {
+    usersError({
       error: "",
     });
   };
 
-  render() {
-    const users = this.props.users;
-    return (
-      <div style={{ margin: "0 auto", padding: "20px", maxWidth: "600px" }}>
-        <h2>Users</h2>
-        <Alert
-          color="danger"
-          isOpen={!!this.props.users.error}
-          toggle={this.handleCloseAlert}
-        >
-          {this.props.users.error}
-        </Alert>
-        <NewUserForm onSubmit={this.handleCreateUserSubmit} />
-        {!!users.items && !!users.items.length && (
-          <Userslist users={users} onDeleteUser={this.handleDeleteUserClick} />
-        )}
-      </div>
-    );
-  }
-}
-export default connect(({ users }) => ({ users }), {
-  getUsersRequest,
-  createUserRequest,
-  deleteUserRequest,
-  usersError,
-})(App);
+  return (
+    <div style={{ margin: "0 auto", padding: "20px", maxWidth: "600px" }}>
+      <h2>Users</h2>
+      <Alert color="danger" isOpen={!!users.error} toggle={handleCloseAlert}>
+        {users.error}
+      </Alert>
+      <NewUserForm onSubmit={handleCreateUserSubmit} />
+      {!!users.items && !!users.items.length && (
+        <Userslist users={users} onDeleteUser={handleDeleteUserClick} />
+      )}
+    </div>
+  );
+};
+
+export default App;

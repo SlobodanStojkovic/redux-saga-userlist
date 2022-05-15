@@ -1,69 +1,69 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
-class NewUserForm extends Component {
-  state = {
+const NewUserForm = ({ onSubmit }) => {
+  const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
-  };
+  });
 
-  handleFirstNameChange = (e) => {
-    this.setState({
+  const handleFirstNameChange = (e) => {
+    setNewUser({
+      ...newUser,
       firstName: e.target.value,
     });
   };
 
-  handleLastNameChange = (e) => {
-    this.setState({
+  const handleLastNameChange = (e) => {
+    setNewUser({
+      ...newUser,
       lastName: e.target.value,
     });
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.onSubmit({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+    onSubmit({
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
     });
 
-    this.setState({
+    setNewUser({
       firstName: "",
       lastName: "",
     });
   };
 
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormGroup>
-          <Label>First name</Label>
-          <Input
-            required
-            type="text"
-            placeholder="First name"
-            onChange={this.handleFirstNameChange}
-            value={this.state.firstName}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Last name</Label>
-          <Input
-            required
-            type="text"
-            placeholder="Last name"
-            onChange={this.handleLastNameChange}
-            value={this.state.lastName}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button block outline type="submit" color="primary">
-            Create
-          </Button>
-        </FormGroup>
-      </Form>
-    );
-  }
-}
+  return (
+    <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Label>First name</Label>
+        <Input
+          required
+          type="text"
+          placeholder="First name"
+          onChange={handleFirstNameChange}
+          value={newUser.firstName}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Last name</Label>
+        <Input
+          required
+          type="text"
+          placeholder="Last name"
+          onChange={handleLastNameChange}
+          value={newUser.lastName}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Button block outline type="submit" color="primary">
+          Create
+        </Button>
+      </FormGroup>
+    </Form>
+  );
+};
 
 export default NewUserForm;
